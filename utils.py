@@ -16,7 +16,7 @@ def get_input_training_data() -> np.ndarray:
     # The for loop is necessary if we want to read the fingerprints in order
 
     for i in range(1, 112 + 1):
-        path_str = "rawData/QFM16_" + str(i) + "_[3-5]_*.txt"
+        path_str = "rawData/QFM16_" + str(i) + "_[1-4]_*.txt"
         fp_paths = glob.glob(path_str)
 
         for fp in fp_paths:
@@ -41,7 +41,7 @@ def get_id_output_training_data() -> np.ndarray:
     # The for loop is necessary if we want to read the fingerprints in order
 
     for i in range(1, 112 + 1):
-        path_str = "rawData/QFM16_" + str(i) + "_[3-5]_*.txt"
+        path_str = "rawData/QFM16_" + str(i) + "_[1-4]_*.txt"
         fp_paths = glob.glob(path_str)
 
         data += [i-1] * len(fp_paths)
@@ -60,13 +60,12 @@ def get_input_testing_data() -> np.ndarray:
     data = list()
 
     for i in range(1, 112 + 1):
-        for j in range(1, 3):
-            path_str = "rawData/QFM16_" + str(i) + "_" + str(j) + "_*.txt"
-            fp_paths = glob.glob(path_str)
+        path_str = "rawData/QFM16_" + str(i) + "_5_*.txt"
+        fp_paths = glob.glob(path_str)
 
-            for path in fp_paths:
-                fp_data = read_finger_file(path)
-                data.append(fp_data)
+        for path in fp_paths:
+            fp_data = read_finger_file(path)
+            data.append(fp_data)
 
     result = np.array(data)
 
@@ -86,11 +85,18 @@ def get_id_output_testing_data() -> np.ndarray:
     # The for loop is necessary if we want to read the fingerprints in order
 
     for i in range(1, 112 + 1):
-        path_str = "rawData/QFM16_" + str(i) + "_[1-2]_*.txt"
+        path_str = "rawData/QFM16_" + str(i) + "_5_*.txt"
         fp_paths = glob.glob(path_str)
         data += [i-1] * len(fp_paths)
 
     result = np.array(data)
+
+    return result
+
+
+def get_auth_output_testing_data():
+    path_str = "rawData/QFM16_*_[1-2]_*.txt"
+    result = np.array([1] * len(glob.glob(path_str)))
 
     return result
 
