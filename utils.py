@@ -51,6 +51,23 @@ def get_id_output_training_data() -> np.ndarray:
     return result
 
 
+def get_auth_output_training_data():
+    data = list()
+
+    for i in range(1, 112 + 1):
+        path_str = "rawData/QFM16_" + str(i) + "_[1-4]_*.txt"
+        fp_paths = glob.glob(path_str)
+
+        if i < 6:
+            data += [1] * len(fp_paths)
+        else:
+            data += [0] * len(fp_paths)
+
+    result = np.array(data)
+
+    return result
+
+
 def get_input_testing_data() -> np.ndarray:
     """
     Retrieve testing data from the database.
@@ -95,8 +112,20 @@ def get_id_output_testing_data() -> np.ndarray:
 
 
 def get_auth_output_testing_data():
-    path_str = "rawData/QFM16_*_[1-2]_*.txt"
-    result = np.array([1] * len(glob.glob(path_str)))
+    data = list()
+
+    # The for loop is necessary if we want to read the fingerprints in order
+
+    for i in range(1, 112 + 1):
+        path_str = "rawData/QFM16_" + str(i) + "_5_*.txt"
+        fp_paths = glob.glob(path_str)
+
+        if i < 6:
+            data += [1] * len(fp_paths)
+        else:
+            data += [0] * len(fp_paths)
+
+    result = np.array(data)
 
     return result
 
